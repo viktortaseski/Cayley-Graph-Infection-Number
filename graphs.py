@@ -1,30 +1,24 @@
-import networkx as nx
 import matplotlib.pyplot as plt
-from solution import check_infected 
+import networkx as nx
 
-edges = [
-    (1, 2),
-    (2, 3),
-    (3, 4),
-    (4, 5),
-    (5, 1),
-    (5, 2),
-    (5, 3),
-    (5, 4),
-    (5, 6),
-    (5, 7),
-    (6, 7),
-]
+from solution import check_infected
 
-G = nx.Graph(edges)
-G2 = nx.Graph([
-    (1, 2),
-    (2, 3),
-    (3, 4),
-    (4, 5),
-    (5, 1),
-    (5, 2),
-])
+#                   N - #vertices   "a" - step size
+# These are the only 2 parameters since the first parameter is always one and we do not need to pass it.
+def generate_cayley(numberOfNodes, stepSize):
+    edges = []
+    steps = [1, -1, stepSize, -stepSize]
 
-check_infected(G, {1, 7})
-check_infected(G2, {2,3})
+    for vertex in range(numberOfNodes):
+        for s in steps:
+            u = (vertex + s) % numberOfNodes
+            edges.append((vertex, u))
+
+    return nx.Graph(edges)
+
+G1 = generate_cayley(5, 2)
+G2 = generate_cayley(10, 2)
+G3 = generate_cayley(10, 3)
+check_infected(G1, {1, 3})
+check_infected(G2, {1, 6})
+check_infected(G3, {1, 6})
