@@ -3,6 +3,7 @@ import networkx as nx
 
 def check_infected(Graph, infected):
 # 1. INITIAL COLORS: red for initially infected, blue for others
+
     print(f"{Graph}\tBEFORE infection: {infected}")
     while True:
         newly_infected = set()
@@ -27,5 +28,6 @@ def check_infected(Graph, infected):
     print(f"{Graph}\tAFTER infected:", infected)
     node_colors = ["red" if node in infected else "blue" for node in Graph.nodes()]
 
+    #labels = {node: node + 1 for node in Graph.nodes()}
     nx.draw_circular(Graph, node_color=node_colors, node_size=800, with_labels=True)
     plt.show()
