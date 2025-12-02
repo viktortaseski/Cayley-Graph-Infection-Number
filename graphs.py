@@ -19,24 +19,28 @@ def debug(n, a, set):
     G = generate_cayley(n, a)
     view_infected(G, set)
     
+def logTable(table):
+    for row in table:
+        print(f"{row[0]:10} {row[1]:15} \t{row[2]:20}")
 
 def solution():
+
+    table = [["n", "a", "size" ],]
+
     for n in range(4,11):
-        print(f"Graph with {n} nodes")
         for a in (2,3):
             G = generate_cayley(n, a)
             k, smallestInfectionSet = m2(G)
             view_infected(G, smallestInfectionSet)
-            print(f"\tn={n}, a={a}: m2/subset size = {k}, example contagious set = {sorted(smallestInfectionSet)}")
-        print(f"\n")
 
+            new_row = [f"{n}", f"{smallestInfectionSet}", f'{k}']
+            table.append(new_row)
+    logTable(table)
 
 def main():
 
-    #debug(6, 2, {0})
-    solution()
-
-    
+    #debug(4, 2, {0, 1})
+    solution()  
 
 
 if __name__ == "__main__":
