@@ -4,8 +4,6 @@ import networkx as nx
 from solution import view_infected
 from solution import m2
 
-#                   N - #vertices   "a" - step size
-# These are the only 2 parameters since the first parameter is always one and we do not need to pass it.
 def generate_cayley(numberOfNodes, stepSize):
     edges = []
     steps = [1, -1, stepSize, -stepSize]
@@ -17,24 +15,28 @@ def generate_cayley(numberOfNodes, stepSize):
 
     return nx.Graph(edges)
 
-def debug():
-    G1 = generate_cayley(5, 2)
-    G2 = generate_cayley(10, 2)
-    G3 = generate_cayley(10, 3)
-    view_infected(G1, {1, 3})
-    view_infected(G2, {1, 6})
-    view_infected(G3, {1, 6})
+def debug(n, a, set):
+    G = generate_cayley(n, a)
+    view_infected(G, set)
+    
 
-def main():
-
-    #debug()
-
+def solution():
     for n in range(4,11):
+        print(f"Graph with {n} nodes")
         for a in (2,3):
             G = generate_cayley(n, a)
             k, smallestInfectionSet = m2(G)
             view_infected(G, smallestInfectionSet)
-            print(f"n={n}, a={a}: m2 = {k}, example contagious set = {sorted(smallestInfectionSet)}")
+            print(f"\tn={n}, a={a}: m2/subset size = {k}, example contagious set = {sorted(smallestInfectionSet)}")
+        print(f"\n")
+
+
+def main():
+
+    #debug(6, 2, {0})
+    solution()
+
+    
 
 
 if __name__ == "__main__":
