@@ -17,18 +17,28 @@ def generate_cayley(numberOfNodes, stepSize):
 
     return nx.Graph(edges)
 
-G1 = generate_cayley(5, 2)
-G2 = generate_cayley(10, 2)
-G3 = generate_cayley(10, 3)
-#check_infected(G1, {1, 3})
-#check_infected(G2, {1, 6})
-#check_infected(G3, {1, 6})
+def debug():
+    G1 = generate_cayley(5, 2)
+    G2 = generate_cayley(10, 2)
+    G3 = generate_cayley(10, 3)
+    view_infected(G1, {1, 3})
+    view_infected(G2, {1, 6})
+    view_infected(G3, {1, 6})
 
-for n in range(4,11):
-    for a in (2,3):
-        G = generate_cayley(n, a)
-        k, smallestInfectionSet = m2(G)
-        view_infected(G, smallestInfectionSet)
-        print(f"n={n}, a={a}: m2 = {k}, example contagious set = {sorted(smallestInfectionSet)}")
+def main():
+
+    #debug()
+
+    for n in range(4,11):
+        for a in (2,3):
+            G = generate_cayley(n, a)
+            k, smallestInfectionSet = m2(G)
+            view_infected(G, smallestInfectionSet)
+            print(f"n={n}, a={a}: m2 = {k}, example contagious set = {sorted(smallestInfectionSet)}")
+
+
+if __name__ == "__main__":
+    main()
+
 
 plt.show()
