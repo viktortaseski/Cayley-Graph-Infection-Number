@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import networkx as nx
+import csv
 
 from solution import check_infected
+from solution import m2
 
-#                   N - #vertices   "a" - step size
-# These are the only 2 parameters since the first parameter is always one and we do not need to pass it.
 def generate_cayley(numberOfNodes, stepSize):
     edges = []
     steps = [1, -1, stepSize, -stepSize]
@@ -16,9 +16,34 @@ def generate_cayley(numberOfNodes, stepSize):
 
     return nx.Graph(edges)
 
-G1 = generate_cayley(5, 2)
-G2 = generate_cayley(10, 2)
-G3 = generate_cayley(10, 3)
-check_infected(G1, {1, 3})
-check_infected(G2, {1, 6})
-check_infected(G3, {1, 6})
+def logTable(table):
+    for row in table:
+        print(f"{str(row[0]):<5} {str(row[1]):<5} {str(row[2]):<25} {str(row[3]):<5}")
+
+def solution():
+    filename = "results.csv"
+    results = []
+    results.append(["n", "a", "Minimum Infection Set", "m2(Cn(1,a))"])
+
+    for n in range(4, 11):
+        for a in (2, 3):
+            G = generate_cayley(n, a)
+            k, smallestInfectionSet = m2(G)
+            results.append([n, a, sorted(list(smallestInfectionSet)), k])
+            check_infected(G, smallestInfectionSet)
+
+    with open(filename, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(results)
+
+    print("\nSaved results to", filename)
+    print("\n===== RESULT TABLE =====")
+    logTable(results)
+
+def main():
+    solution()
+
+if __name__ == "__main__":
+    main()
+
+plt.show()

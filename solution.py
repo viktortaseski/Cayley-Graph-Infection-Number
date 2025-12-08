@@ -1,6 +1,32 @@
 import matplotlib.pyplot as plt
 import networkx as nx
+from itertools import combinations
 
+def infect(Graph, initial):
+    infected = set(initial)
+    while True:
+        newly = set()
+        for v in Graph:
+            if v in infected:
+                continue
+            count = sum(1 for nb in Graph.neighbors(v) if nb in infected)
+            if count >= 2:
+                newly.add(v)
+        if not newly:
+            break
+        infected |= newly
+    return infected
+
+def m2(Graph):
+    nodes = list(Graph.nodes)
+    n = len(nodes)
+
+    for k in range(1, n+1):
+        for subset in combinations(nodes, k):
+            final = infect(Graph, subset)
+            if len(final) == n:
+                return k, set(subset)
+    return None, None
 def check_infected(Graph, infected):
 # 1. INITIAL COLORS: red for initially infected, blue for others
 
