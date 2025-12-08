@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 from solution import check_infected, m2
-from writer import logTable, write_table
+from utils import logTable, write_table
 
 
 def generate_cayley(numberOfNodes, stepSize):
@@ -20,9 +20,7 @@ def generate_cayley(numberOfNodes, stepSize):
 def solution():
     filename = "results.csv"
     results = []
-    results.append(
-        ["n", "a", "Minimum Infection Set", "m2(Cn(1,a))"],
-    )
+    results.append(["n", "a", "Minimum Infection Set", "m2(Cn(1,a))"])
 
     for n in range(4, 11):
         for a in (2, 3):
@@ -40,8 +38,8 @@ def solution():
 
 def main():
     solution()
-    plt.show()
 
 
 if __name__ == "__main__":
     main()
+    plt.show()
