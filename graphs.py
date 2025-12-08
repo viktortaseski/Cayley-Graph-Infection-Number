@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 
-from solution import view_infected
-from solution import m2
+from solution import check_infected, m2
+from writer import logTable, write_table
+
 
 def generate_cayley(numberOfNodes, stepSize):
     edges = []
@@ -15,36 +16,32 @@ def generate_cayley(numberOfNodes, stepSize):
 
     return nx.Graph(edges)
 
-def debug(n, a, set):
-    G = generate_cayley(n, a)
-    view_infected(G, set)
-    
-def logTable(table):
-    for row in table:
-        print(f"{row[0]:10} {row[1]:15} \t{row[2]:20}")
 
 def solution():
+    filename = "results.csv"
+    results = []
+    results.append(
+        ["n", "a", "Minimum Infection Set", "m2(Cn(1,a))"],
+    )
 
-    table = [["n", "a", "size" ],]
-
-    for n in range(4,11):
-        for a in (2,3):
+    for n in range(4, 11):
+        for a in (2, 3):
             G = generate_cayley(n, a)
             k, smallestInfectionSet = m2(G)
-            view_infected(G, smallestInfectionSet)
+            results.append([n, a, sorted(list(smallestInfectionSet)), k])
+            check_infected(G, smallestInfectionSet)
 
-            new_row = [f"{n}", f"{smallestInfectionSet}", f'{k}']
-            table.append(new_row)
-    logTable(table)
+    write_table(filename, results)
+
+    print("\nSaved results to", filename)
+    print("\n===== RESULT TABLE =====")
+    logTable(results)
+
 
 def main():
-
-    #debug(4, 2, {0, 1})
-    solution()  
+    solution()
+    plt.show()
 
 
 if __name__ == "__main__":
     main()
-
-
-plt.show()
