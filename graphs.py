@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 
-from solution import check_infected, m2
+from solution import check_infected, check_infected_step, m2
 from utils import logTable, write_table
 
 
@@ -28,6 +28,7 @@ def solution():
             k, smallestInfectionSet = m2(G)
             results.append([n, a, sorted(list(smallestInfectionSet)), k])
             check_infected(G, smallestInfectionSet)
+            # check_infected_step(G, smallestInfectionSet)
 
     write_table(filename, results)
 
